@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
-
+from lxml import html
+import re
 
 class KeywordSearch:
     def __init__(self, site_url):
@@ -17,12 +18,13 @@ class KeywordSearch:
 
     def search_keyword(self, html):
         soup = BeautifulSoup(html, 'lxml')
-        paragraph = soup.find_all('p')
-        # for paragraph in soup.find_all('p'):
-        #     paragraph = paragraph.text.strip()
+        paragraph = soup.findAll(text=re.compile(self.keyword))
         print(paragraph)
-        if self.keyword in paragraph:
-            self.keyword_count += 1
+        for element in paragraph:
+            if self.keyword in element:
+                self.keyword_count += 1
+
+
 
     def start(self):
         print("Searchnig...Please Wait")
