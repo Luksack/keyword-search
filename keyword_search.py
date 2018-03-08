@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 from lxml import html
 import re
 
+
 class KeywordSearch:
     def __init__(self, site_url):
         self.keyword = input("Please insert the keyword You are looking for: " + '\n' + '> ')
@@ -18,12 +19,9 @@ class KeywordSearch:
 
     def search_keyword(self, html):
         soup = BeautifulSoup(html, 'lxml')
-        paragraph = soup.findAll(text=re.compile(self.keyword))
-        print(paragraph)
-        for element in paragraph:
-            if self.keyword in element:
-                self.keyword_count += 1
-
+        keyword_count = str(soup).lower().count(self.keyword.lower())
+        print("You were looking for %s" % self.keyword)
+        print("There are: %d" % keyword_count)
 
 
     def start(self):
@@ -31,7 +29,5 @@ class KeywordSearch:
         self.scrap_html(self.site_url)
 
 
-scraper = KeywordSearch("https://news.ycombinator.com/item?id=16492994")
+scraper = KeywordSearch("http://0.0.0.0:8000/easy.html")
 scraper.start()
-print("You were looking for %s" % scraper.keyword)
-print("There are: " + str(scraper.keyword_count))
